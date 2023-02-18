@@ -3,7 +3,7 @@
 ## About
 Lookout is a simple yet powerful CLI app that sends a **slack notification** when your program
 
-1. ends successfully,
+1. completes successfully,
 2. terminates with an error,
 3. exceeds predefined time without any output, or
 4. outputs predefined regex match.
@@ -27,7 +27,7 @@ $ lookout python really_heavy_program.py arg1 arg2
   ```sh
   $ nohup lookout python train.py
   ```
-  This will run `python train.py` in the background even with the browser closed, and you will get a notification when it's cooked & done.
+  This will run `python train.py` in the background even with the terminal closed, and you will get a notification when it's done.
 
 ## Installation
 ```sh
