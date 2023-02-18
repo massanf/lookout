@@ -15,7 +15,6 @@ def slack_notify(
     regex="",
     hangth=2
 ):
-    slack_webhook_url = 'https://hooks.slack.com/services/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'
     blocks = []
     cmdline = " ".join(cmd)
     if lastline == "" or lastline == "\n":
@@ -77,7 +76,7 @@ def slack_notify(
                 }
             }
         ]
-    
+
     if type == "successful":
         notificationline = "✅ Process successfully completed"
         blocks = [
@@ -239,10 +238,10 @@ def slack_notify(
             }
         ]
 
-    requests.post(slack_webhook_url,
+    requests.post(link,
                   json={
-                            "title": "Lookout notification",
-                            "blocks": blocks,
-                            "text": notificationline,
-                        }
+                      "title": "Lookout notification",
+                      "blocks": blocks,
+                      "text": notificationline,
+                  }
                   )

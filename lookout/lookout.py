@@ -123,7 +123,7 @@ def main():
 
     # load link
     try:
-        link = config["link"]
+        link = config["link"]["url"]
         HANGTHRESHOLD = config["hangthreshold"]
 
     except KeyError:
