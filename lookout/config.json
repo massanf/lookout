@@ -1,12 +1,4 @@
 {
     "hangthreshold": 120,
-    "link": {
-        "channel": [
-            "@lookoutnotifier"
-        ],
-        "team_name": [
-            "mfujita_dev"
-        ],
-        "url": "https://hooks.slack.com/services/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"
-    }
+    "link": {}
 }

@@ -2,3 +2,4 @@ dist
 build
 lookout.egg-info
 __pycache__
+lookout/config.json
