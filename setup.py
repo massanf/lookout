@@ -15,7 +15,7 @@ setup(
 
     license='MIT',
 
-    # install_requires=['janome', 'pykakasi', 'semidbm', 'six'],
+    install_requires=['oauthlib'],
 
     author='trombiano1',
     author_email='mfujitadev@gmail.com',
