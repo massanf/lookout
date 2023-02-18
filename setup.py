@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='lookout',
+    name='lookout-python',
     packages=['lookout'],
 
     version='1.0.0',

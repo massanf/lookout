@@ -1,7 +1,7 @@
 dist
 build
-lookout.egg-info
+lookout-python.egg-info
 __pycache__
-lookout/config.json
+lookout-python/config.json
 */config.json
 .DS_Store
