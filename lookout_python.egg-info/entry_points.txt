@@ -1,2 +1,0 @@
-[console_scripts]
-lookout = lookout.lookout:main

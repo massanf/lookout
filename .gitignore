@@ -1,6 +1,6 @@
 dist
 build
-lookout-python.egg-info
+lookout_python.egg-info
 __pycache__
 lookout-python/config.json
 */config.json
