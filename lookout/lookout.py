@@ -26,7 +26,7 @@ class timeout:
         self.starttime = starttime
         self.link = link
 
-    def handle_timeout(self, signum, frame):
+    def handle_timeout(self, signum="", frame=""):
         notify.slack_notify(
             self.link,
             "timeout",
