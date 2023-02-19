@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: lint
         name: lint
-        entry: bash -c 'flake8 target_file_or_directory && isort -c --diff target_file_or_directory && black --check target_file_or_directory'
+        entry: bash -c 'flake8 setup.cfg && isort -c --diff pyproject.toml && black --check pyproject.toml'
         language: system
         types: [python]
