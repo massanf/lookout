@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: lint
         name: lint
-        entry: bash -c 'flake8 lookout && isort -c --diff lookout && black -c lookout'
+        entry: bash -c 'flake8 lookout && isort -c lookout && black -c lookout'
         language: system
         types: [python]
