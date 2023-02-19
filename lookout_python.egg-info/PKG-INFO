@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: lookout-python
-Version: 1.0.2
+Version: 1.0.3
 Summary: Monitors your command and notifies you via Slack when you need it the most
 Home-page: https://github.com/trombiano1/lookout
 Author: trombiano1
