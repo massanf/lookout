@@ -6,8 +6,8 @@ from . import notify
 import time
 import signal
 import threading
-import os
 import json
+import os
 import argparse
 from . import auth
 import pathlib
