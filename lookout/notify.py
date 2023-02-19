@@ -9,7 +9,7 @@ def slack_notify(
     cmd,
     starttime,
     lastline,
-    endtime=0,
+    endtime=0.,
     errmsg="",
     returncode=0,
     regex="",
@@ -17,6 +17,8 @@ def slack_notify(
 ):
     blocks = []
     cmdline = " ".join(cmd)
+    notificationline = ""
+
     if lastline == "" or lastline == "\n":
         lastline = "No output yet"
     else:
@@ -146,7 +148,8 @@ def slack_notify(
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"Process has not been outputting for {hangth} seconds.\nYou can change this threshold with `--hangthreshold` argument."
+                    "text": (f"Process has not been outputting for {hangth} seconds.\n"
+                             "You can change this threshold with `--hangthreshold` argument.")
                 }
             },
             {

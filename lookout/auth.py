@@ -1,10 +1,10 @@
-import urllib
+import urllib.request
 import json
 import os
-import requests
 import webbrowser
 from oauthlib.oauth2 import WebApplicationClient
 import pathlib
+
 
 DEFAULT_CONFIG = {"hangthreshold": 120, "link": {}}
 SCRIPT_LOCATION = pathlib.Path(os.path.realpath(os.path.dirname(__file__)))
@@ -23,21 +23,23 @@ def main():
     REDIRECT_URL = "https://sleepy-shelf-95701.herokuapp.com/slack"
 
     oauth = WebApplicationClient(CLIENT_ID)
-    url, headers, body = oauth.prepare_authorization_request('https://slack.com/oauth/authorize', scope=REQUEST_SCOPE, redirect_url=REDIRECT_URL)
+    url, headers, body = oauth.prepare_authorization_request('https://slack.com/oauth/authorize',
+                                                             scope=REQUEST_SCOPE, redirect_url=REDIRECT_URL)
 
     webbrowser.open(url)
     print("Please follow the authentication process in your browser.")
     CODE = input("Please paste your code here: ")
 
-    request_data = {
-        "client_id": CLIENT_ID,
-        "code": CODE,
-        "client_secret": CLIENT_SECRET,
-        "scope": REQUEST_SCOPE,
-        "redirect_url": REDIRECT_URL
-    }
+    # request_data = {
+    #     "client_id": CLIENT_ID,
+    #     "code": CODE,
+    #     "client_secret": CLIENT_SECRET,
+    #     "scope": REQUEST_SCOPE,
+    #     "redirect_url": REDIRECT_URL
+    # }
 
-    url, headers, body = oauth.prepare_token_request('https://slack.com/api/oauth.access', code=CODE, client_secret=CLIENT_SECRET)
+    url, headers, body = oauth.prepare_token_request('https://slack.com/api/oauth.access',
+                                                     code=CODE, client_secret=CLIENT_SECRET)
     req = urllib.request.Request(url, body.encode(), headers=headers)
     payload = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
 

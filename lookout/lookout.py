@@ -26,7 +26,7 @@ class timeout:
         self.starttime = starttime
         self.link = link
 
-    def handle_timeout(self, signum="", frame=""):
+    def handle_timeout(self, signum=0, frame=None):
         notify.slack_notify(
             self.link,
             "timeout",
@@ -86,13 +86,13 @@ def main():
         help='Send alert when output matches regex',
         type=str,
         default="$."
-    ),
+    )
     parser.add_argument(
         '--change',
         help='Change alert channel.',
         action='store_true',
         default=False
-    ),
+    )
     parser.add_argument(
         '--reset',
         help='Revert to factory settings',
