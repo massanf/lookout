@@ -10,7 +10,6 @@ import os
 import json
 import argparse
 from . import auth
-# import auth
 import pathlib
 import re
 
