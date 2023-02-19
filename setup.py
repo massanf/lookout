@@ -11,18 +11,18 @@ setup(
     name='lookout-python',
     packages=['lookout'],
 
-    version='1.0.0',
+    version='1.0.3',
 
     license='MIT',
 
-    install_requires=['oauthlib'],
+    install_requires=['oauthlib', 'requests'],
 
     author='trombiano1',
     author_email='mfujitadev@gmail.com',
 
     url='https://github.com/trombiano1/lookout',
 
-    description='Notify via E-mail or Slack Incoming Webhooks when command ends or runs into error.',
+    description='Monitors your command and notifies you via Slack when you need it the most',
     long_description=long_description,
     long_description_content_type='text/markdown',
     keywords='lookout notification notify',

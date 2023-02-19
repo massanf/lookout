@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: lookout-python
-Version: 1.0.0
-Summary: Notify via E-mail or Slack Incoming Webhooks when command ends or runs into error.
+Version: 1.0.3
+Summary: Monitors your command and notifies you via Slack when you need it the most
 Home-page: https://github.com/trombiano1/lookout
 Author: trombiano1
 Author-email: mfujitadev@gmail.com
@@ -14,7 +14,7 @@ Description-Content-Type: text/markdown
 License-File: LICENCE.md
 
 # Lookout: Command watcher w/ Slack
-![example image](example.png)
+![example image](https://i.stack.imgur.com/fIh5J.png)
 ## About
 Lookout is a simple yet powerful CLI app that sends a **slack notification** when your program
 

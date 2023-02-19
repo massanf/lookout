@@ -5,6 +5,7 @@ from . import notify
 # import notify
 import time
 import signal
+import threading
 import os
 import json
 import argparse
@@ -25,7 +26,7 @@ class timeout:
         self.starttime = starttime
         self.link = link
 
-    def handle_timeout(self, signum, frame):
+    def handle_timeout(self, signum="", frame=""):
         notify.slack_notify(
             self.link,
             "timeout",
@@ -36,11 +37,22 @@ class timeout:
         )
 
     def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
+        if os.name == 'nt':
+            # Windows
+            self.alarm = threading.Timer(self.seconds, self.handle_timeout)
+            self.alarm.start()
+        else:
+            # UNIX
+            signal.signal(signal.SIGALRM, self.handle_timeout)
+            signal.alarm(self.seconds)
 
     def __exit__(self, type, value, traceback):
-        signal.alarm(0)
+        if os.name == 'nt':
+            # Windows
+            self.alarm.cancel()
+        else:
+            # UNIX
+            signal.alarm(0)
 
 
 def getchar(p):
