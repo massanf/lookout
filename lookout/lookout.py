@@ -1,20 +1,18 @@
-# import os
-import sys
-import subprocess
-from . import notify
-# import notify
-import time
-import signal
-import threading
+import argparse
 import json
 import os
-import argparse
-from . import auth
 import pathlib
 import re
+import signal
+import subprocess
+import sys
+import threading
+import time
+
+from . import auth, notify
 
 SCRIPT_LOCATION = pathlib.Path(os.path.realpath(os.path.dirname(__file__)))
-CONFIG_LOCATION = SCRIPT_LOCATION / 'config.json'
+CONFIG_LOCATION = SCRIPT_LOCATION / "config.json"
 
 
 class timeout:
@@ -32,11 +30,11 @@ class timeout:
             cmd=self.cmd,
             starttime=self.starttime,
             lastline=self.lastline,
-            hangth=self.seconds
+            hangth=self.seconds,
         )
 
     def __enter__(self):
-        if os.name == 'nt':
+        if os.name == "nt":
             # Windows
             self.alarm = threading.Timer(self.seconds, self.handle_timeout)
             self.alarm.start()
@@ -46,7 +44,7 @@ class timeout:
             signal.alarm(self.seconds)
 
     def __exit__(self, type, value, traceback):
-        if os.name == 'nt':
+        if os.name == "nt":
             # Windows
             self.alarm.cancel()
         else:
@@ -74,34 +72,23 @@ def main():
     # parse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '--hangthreshold',
-        '-ht',
-        help='Override config on hang threshold for sending hanging alert [seconds]',
+        "--hangthreshold",
+        "-ht",
+        help="Override config on hang threshold for sending hanging alert [seconds]",
         type=int,
-        default=-1
+        default=-1,
     )
     parser.add_argument(
-        '--regex',
-        help='Send alert when output matches regex',
-        type=str,
-        default="$."
+        "--regex", help="Send alert when output matches regex", type=str, default="$."
     )
     parser.add_argument(
-        '--change',
-        help='Change alert channel.',
-        action='store_true',
-        default=False
+        "--change", help="Change alert channel.", action="store_true", default=False
     )
     parser.add_argument(
-        '--reset',
-        help='Revert to factory settings',
-        action='store_true',
-        default=False
+        "--reset", help="Revert to factory settings", action="store_true", default=False
     )
     parser.add_argument(
-        "command",
-        help='Command to be executed.',
-        nargs=argparse.REMAINDER
+        "command", help="Command to be executed.", nargs=argparse.REMAINDER
     )
     args = parser.parse_args()
 
@@ -112,25 +99,33 @@ def main():
 
     # load configuration
     if os.path.exists(CONFIG_LOCATION):
-        with open(CONFIG_LOCATION, 'r') as f:
+        with open(CONFIG_LOCATION, "r") as f:
             config = json.load(f)
 
         if len(config["link"]) == 0:
             auth.main()
     else:
         auth.main()
-        with open(CONFIG_LOCATION, 'r') as f:
+        with open(CONFIG_LOCATION, "r") as f:
             config = json.load(f)
 
     # if hangthreshold is defined
     try:
         if args.hangthreshold != -1:
             config["hangthreshold"] = args.hangthreshold
-            with open(CONFIG_LOCATION, 'w') as f:
-                json.dump(config, f, ensure_ascii=False, indent=4,
-                          sort_keys=True, separators=(',', ': '))
+            with open(CONFIG_LOCATION, "w") as f:
+                json.dump(
+                    config,
+                    f,
+                    ensure_ascii=False,
+                    indent=4,
+                    sort_keys=True,
+                    separators=(",", ": "),
+                )
     except KeyError:
-        raise ValueError("Could not read config.json file. Consider using --reset to reset.")
+        raise ValueError(
+            "Could not read config.json file. Consider using --reset to reset."
+        )
 
     # load link
     try:
@@ -138,7 +133,9 @@ def main():
         HANGTHRESHOLD = config["hangthreshold"]
 
     except KeyError:
-        raise ValueError("Could not read config.json file. Consider using --reset to reset.")
+        raise ValueError(
+            "Could not read config.json file. Consider using --reset to reset."
+        )
 
     # regex
     # pattern = re.compile(args.regex)
@@ -158,8 +155,13 @@ def main():
     stderr_record = ""
     line_reported = False
 
-    p = subprocess.Popen(args.command, bufsize=0, stdin=sys.stdin,
-                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    p = subprocess.Popen(
+        args.command,
+        bufsize=0,
+        stdin=sys.stdin,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
 
     # for each output char
     while p.poll() is None:
@@ -171,10 +173,10 @@ def main():
                 cmd=args.command,
                 starttime=starttime,
                 lastline=line,
-                seconds=HANGTHRESHOLD
+                seconds=HANGTHRESHOLD,
             ):
                 c = getchar(p)
-            if c == '\n':
+            if c == "\n":
                 lastline = line
                 line = ""
                 line_reported = False
@@ -192,7 +194,7 @@ def main():
                     cmd=args.command,
                     lastline=line,
                     starttime=starttime,
-                    regex=args.regex
+                    regex=args.regex,
                 )
                 line_reported = True
 
@@ -219,7 +221,7 @@ def main():
             lastline=lastline,
             starttime=starttime,
             endtime=endtime,
-            returncode=p.returncode
+            returncode=p.returncode,
         )
     else:
         notify.slack_notify(
@@ -230,7 +232,7 @@ def main():
             errmsg=stderr_record,
             starttime=starttime,
             endtime=endtime,
-            returncode=p.returncode
+            returncode=p.returncode,
         )
 
 

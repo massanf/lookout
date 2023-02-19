@@ -1,21 +1,27 @@
-import urllib.request
 import json
 import os
-import webbrowser
-from oauthlib.oauth2 import WebApplicationClient
 import pathlib
+import urllib.request
+import webbrowser
 
+from oauthlib.oauth2 import WebApplicationClient
 
 DEFAULT_CONFIG = {"hangthreshold": 120, "link": {}}
 SCRIPT_LOCATION = pathlib.Path(os.path.realpath(os.path.dirname(__file__)))
-CONFIG_LOCATION = SCRIPT_LOCATION / 'config.json'
+CONFIG_LOCATION = SCRIPT_LOCATION / "config.json"
 
 
 def main():
     if not os.path.exists(CONFIG_LOCATION):
-        with open(CONFIG_LOCATION, 'w') as f:
-            json.dump(DEFAULT_CONFIG, f, ensure_ascii=False, indent=4,
-                      sort_keys=True, separators=(',', ': '))
+        with open(CONFIG_LOCATION, "w") as f:
+            json.dump(
+                DEFAULT_CONFIG,
+                f,
+                ensure_ascii=False,
+                indent=4,
+                sort_keys=True,
+                separators=(",", ": "),
+            )
 
     CLIENT_ID = "4837413857745.4837415034865"
     REQUEST_SCOPE = "incoming-webhook"
@@ -23,8 +29,11 @@ def main():
     REDIRECT_URL = "https://sleepy-shelf-95701.herokuapp.com/slack"
 
     oauth = WebApplicationClient(CLIENT_ID)
-    url, headers, body = oauth.prepare_authorization_request('https://slack.com/oauth/authorize',
-                                                             scope=REQUEST_SCOPE, redirect_url=REDIRECT_URL)
+    url, headers, body = oauth.prepare_authorization_request(
+        "https://slack.com/oauth/authorize",
+        scope=REQUEST_SCOPE,
+        redirect_url=REDIRECT_URL,
+    )
 
     webbrowser.open(url)
     print("Please follow the authentication process in your browser.")
@@ -38,27 +47,30 @@ def main():
     #     "redirect_url": REDIRECT_URL
     # }
 
-    url, headers, body = oauth.prepare_token_request('https://slack.com/api/oauth.access',
-                                                     code=CODE, client_secret=CLIENT_SECRET)
+    url, headers, body = oauth.prepare_token_request(
+        "https://slack.com/api/oauth.access", code=CODE, client_secret=CLIENT_SECRET
+    )
     req = urllib.request.Request(url, body.encode(), headers=headers)
-    payload = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
+    payload = json.loads(urllib.request.urlopen(req).read().decode("utf-8"))
 
     if payload["ok"]:
-        team_name = payload["team_name"],
-        channel = payload["incoming_webhook"]["channel"],
+        team_name = (payload["team_name"],)
+        channel = (payload["incoming_webhook"]["channel"],)
         url = payload["incoming_webhook"]["url"]
 
-        with open(CONFIG_LOCATION, 'r') as f:
+        with open(CONFIG_LOCATION, "r") as f:
             config = json.load(f)
-            config["link"] = {
-                "team_name": team_name,
-                "channel": channel,
-                "url": url
-            }
+            config["link"] = {"team_name": team_name, "channel": channel, "url": url}
 
-        with open(CONFIG_LOCATION, 'w') as f:
-            json.dump(config, f, ensure_ascii=False, indent=4,
-                      sort_keys=True, separators=(',', ': '))
+        with open(CONFIG_LOCATION, "w") as f:
+            json.dump(
+                config,
+                f,
+                ensure_ascii=False,
+                indent=4,
+                sort_keys=True,
+                separators=(",", ": "),
+            )
 
         print(f"Now set to {channel[0]} at {team_name[0]}!")
 
