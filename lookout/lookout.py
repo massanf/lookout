@@ -39,8 +39,8 @@ class timeout:
     def __enter__(self):
         if os.name == 'nt':
             # Windows
-            alarm = threading.Timer(self.seconds, self.handle_timeout)
-            alarm.start()
+            self.alarm = threading.Timer(self.seconds, self.handle_timeout)
+            self.alarm.start()
         else:
             # UNIX
             signal.signal(signal.SIGALRM, self.handle_timeout)
@@ -49,7 +49,7 @@ class timeout:
     def __exit__(self, type, value, traceback):
         if os.name == 'nt':
             # Windows
-            alarm.cancel()
+            self.alarm.cancel()
         else:
             # UNIX
             signal.alarm(0)
