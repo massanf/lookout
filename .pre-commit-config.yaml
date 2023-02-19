@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: lint
+        name: lint
+        entry: bash -c 'flake8 target_file_or_directory && isort -c --diff target_file_or_directory && black --check target_file_or_directory'
+        language: system
+        types: [python]
