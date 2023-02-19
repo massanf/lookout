@@ -1,5 +1,5 @@
 # Lookout: Command watcher w/ Slack
-![example image](example.png)
+![example image](https://i.stack.imgur.com/fIh5J.png)
 ## About
 Lookout is a simple yet powerful CLI app that sends a **slack notification** when your program
 

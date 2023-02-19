@@ -5,6 +5,7 @@ from . import notify
 # import notify
 import time
 import signal
+import threading
 import os
 import json
 import argparse
@@ -36,11 +37,22 @@ class timeout:
         )
 
     def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
+        if os.name == 'nt':
+            # Windows
+            alarm = threading.Timer(self.process_timeout, self.handle_timeout)
+            alarm.start(self.seconds)
+        else:
+            # UNIX
+            signal.signal(signal.SIGALRM, self.handle_timeout)
+            signal.alarm(self.seconds)
 
     def __exit__(self, type, value, traceback):
-        signal.alarm(0)
+        if os.name == 'nt':
+            # Windows
+            alarm.cancel()
+        else:
+            # UNIX
+            signal.alarm(0)
 
 
 def getchar(p):
