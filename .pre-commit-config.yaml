@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: lint
         name: lint
-        entry: bash -c 'flake8 --extend-ignore E203 --max-line-length 119 && isort pyproject.toml && black --check pyproject.toml'
+        entry: bash -c 'flake8 --extend-ignore E203 --max-line-length 119 && isort -c pyproject.toml && black pyproject.toml'
         language: system
         types: [python]
