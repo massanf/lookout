@@ -53,7 +53,7 @@ class timeout:
 
 
 def getchar(p):
-    c = p.stdout.read(1).decode(sys.stdout.encoding)
+    c = p.stdout.read(1).decode(sys.stdout.encoding, 'ignore')
     if c == "":
         return -1
     else:
@@ -61,7 +61,7 @@ def getchar(p):
 
 
 def getcharerr(p):
-    c = p.stderr.read(1).decode(sys.stdout.encoding)
+    c = p.stderr.read(1).decode(sys.stdout.encoding, 'ignore')
     if c == "":
         return -1
     else:

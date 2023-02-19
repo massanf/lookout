@@ -48,7 +48,7 @@ After authentication, you will be displayed a code that you need to copy and pas
   ```sh
   --regex "expression"
   ```
-  This will send an alert when the command output matches given regex. Make sure to escape symbols with backslash. Double quotes are only required on some cases (to escape sh).
+  This will send an alert when the command output matches given regex. Make sure to escape symbols with backslash. Double quotes are only required on some cases (to escape `sh`).
 
 - Change slack channel
   ```sh
