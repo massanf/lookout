@@ -5,3 +5,4 @@ __pycache__
 lookout-python/config.json
 */config.json
 .DS_Store
+.vscode
